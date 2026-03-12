@@ -126,53 +126,50 @@ For storing directory names in the stack.
 ## C++ Implementation
 
 ```cpp
-#include <vector>
-#include <string>
-#include <stack>
-#include <sstream>
-using namespace std;
+class Solution {
+public:
+    string simplifyPath(string path) {
+        
+        stack<string> st;
+        string temp;
 
-string simplifyPath(string path) {
+        for (int i = 0; i <= path.size(); i++) {
+            
+            if (i == path.size() || path[i] == '/') {
 
-    stack<string> st;
-    string temp;
-    stringstream ss(path);
+                if (temp == "" || temp == ".") {
+                    // ignore current directory
+                }
+                else if (temp == "..") {
+                    // go to parent directory
+                    if (!st.empty())
+                        st.pop();
+                }
+                else {
+                    // push valid directory name
+                    st.push(temp);
+                }
 
-    while(getline(ss, temp, '/')){
-
-        if(temp == "" || temp == "."){
-            continue;
-        }
-
-        if(temp == ".."){
-
-            if(!st.empty()){
-                st.pop();
+                temp = "";
             }
-
+            else {
+                temp += path[i];
+            }
         }
-        else{
-            st.push(temp);
+
+        if (st.empty())
+            return "/";
+
+        string result = "";
+
+        while (!st.empty()) {
+            result = "/" + st.top() + result;
+            st.pop();
         }
+
+        return result;
     }
-
-    vector<string> dirs;
-
-    while(!st.empty()){
-        dirs.push_back(st.top());
-        st.pop();
-    }
-
-    string result = "";
-
-    for(int i = dirs.size() - 1; i >= 0; i--){
-        result += "/" + dirs[i];
-    }
-
-    if(result == "") return "/";
-
-    return result;
-}
+};
 ```
 
 ---
