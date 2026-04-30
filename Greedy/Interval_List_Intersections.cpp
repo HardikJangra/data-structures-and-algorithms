@@ -18,7 +18,7 @@ Approach:
      start = max(start1, start2)
      end = min(end1, end2)
    - If start <= end → valid intersection.
-3. Move the pointer with smaller end
+3. Move the pointer with smaller end.
 
 Time Complexity: O(n + m)
 Space Complexity: O(1) (excluding result)
